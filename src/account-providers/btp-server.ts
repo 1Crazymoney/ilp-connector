@@ -43,7 +43,10 @@ export default class BtpServerAccountProvider extends ServerAccountProvider<WebS
     if (!this._handler) throw new Error('no handler defined')
 
     const pluginModule = this._accountInfo.plugin as string || 'ilp-plugin-btp'
-    const plugin = new (require(pluginModule))({ raw: { socket } }, {
+    const plugin = new (require(pluginModule))({
+      ...this._accountInfo.options,
+      raw: { socket }
+    }, {
       log: createLogger(`${this._accountInfo.plugin}[${accountId}]`),
       store: this._store.getPluginStore(accountId)
     })
