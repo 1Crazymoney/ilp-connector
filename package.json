@@ -1,10 +1,10 @@
 {
-  "name": "ilp-connector",
+  "name": "@kava-labs/ilp-connector",
   "version": "23.0.0-beta",
   "description": "ILP connector reference implementation",
   "repository": {
     "type": "git",
-    "url": "git@github.com:interledgerjs/ilp-connector.git"
+    "url": "git@github.com:kava-labs/ilp-connector.git"
   },
   "keywords": [
     "interledger",
@@ -14,7 +14,7 @@
   "author": "Interledger Team <info@interledger.org>",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/interledgerjs/ilp-connector/issues"
+    "url": "https://github.com/Kava-Labs/ilp-connector/issues"
   },
   "main": "build/index.js",
   "types": "build/index.d.ts",

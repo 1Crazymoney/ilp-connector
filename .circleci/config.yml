@@ -1,59 +1,38 @@
-# Javascript Node CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-javascript/ for more details
-#
 version: 2
 
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-      # Use active LTS release: https://github.com/nodejs/Release#release-schedule
-    - image: circleci/node:8.12
-
 jobs:
-  test:
-    <<: *defaults
+  build:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/repo
     steps:
-
       - checkout
-
+      # Download and cache dependencies
       - restore_cache:
           keys:
-            # when lock file changes, use increasingly general patterns to restore cache
-            - "node-v1-{{ .Branch }}-{{ checksum \"package-lock.json\" }}"
-            - "node-v1-{{ .Branch }}-"
-            - "node-v1-"
-
+          - v10-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v10-dependencies-
       - run:
-          name: Install
+          name: Install dependencies
           command: npm install
-
-      - run:
-          name: Lint
-          command: npm run lint
-
-      - run:
-          name: Test
-          command: npm test
-
-      - run:
-          name: Upload Test Coverage to codecov.io
-          command: npm run report-coverage
-
-      - run:
-          name: Run Integration Tests
-          command: if git log -1 --pretty=%B | grep -qF "[skip tests]"; then true; else npm run integration; fi
-
       - save_cache:
           paths:
             - node_modules
-          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
-
+          key: v10-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: Build and compile
+          command: npm run build
+      - run:
+          name: Lint files
+          command: npm run lint
       - persist_to_workspace:
           root: ~/repo
           paths: .
-  deploy:
-    <<: *defaults
+  publish:
+    docker:
+      - image: circleci/node:10
+    working_directory: ~/repo
     steps:
       - attach_workspace:
           at: ~/repo
@@ -66,15 +45,15 @@ jobs:
 
 workflows:
   version: 2
-  test-deploy:
+  build_and_publish:
     jobs:
-      - test:
+      - build:
           filters:
             tags:
-              only: /^v.*/
-      - deploy:
+              only: /.*/
+      - publish:
           requires:
-            - test
+            - build
           filters:
             tags:
               only: /^v.*/
