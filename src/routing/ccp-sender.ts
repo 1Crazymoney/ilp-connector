@@ -1,7 +1,8 @@
 import ForwardingRoutingTable, { RouteUpdate } from '../services/forwarding-routing-table'
 import Account from '../types/account'
 import { BroadcastRoute } from '../types/routing'
-import { create as createLogger, ConnectorLogger } from '../common/log'
+import { create as createLogger } from '../common/log'
+import { Logger as ConnectorLogger } from 'ilp-logger'
 import { Relation } from './relation'
 import {
   CcpRouteControlRequest,
