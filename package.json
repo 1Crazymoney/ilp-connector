@@ -1,6 +1,6 @@
 {
   "name": "@kava-labs/ilp-connector",
-  "version": "23.0.0-beta",
+  "version": "23.0.0-beta.1",
   "description": "ILP connector reference implementation",
   "repository": {
     "type": "git",
