@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git@github.com:kava-labs/ilp-connector.git"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "keywords": [
     "interledger",
     "five-bells",
