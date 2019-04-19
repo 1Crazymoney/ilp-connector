@@ -38,8 +38,6 @@ export default class IlpPrepareController {
 
     if (destination.startsWith(PEER_PROTOCOL_PREFIX)) {
       return this.peerProtocolController.handle(packet, sourceAccount)
-    } else if (destination === this.accounts.getOwnAddress()) {
-      return this.echoController.handle(packet, sourceAccount, outbound)
     }
 
     const { nextHop, nextHopPacket } = await this.routeBuilder.getNextHopPacket(sourceAccount, packet)
